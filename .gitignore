@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.angular/
+coverage/
+.vscode/
+.idea/
+__pycache__/
+*.pyc
+venv/
+db.sqlite3
+.DS_Store
+Thumbs.db
