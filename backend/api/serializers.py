@@ -1,6 +1,5 @@
-from backend.api.models import Profile, Meal, WeightEntry, DailyGoal
+from api.models import Profile, Meal, WeightEntry, DailyGoal
 from django.contrib.auth.models import User
-from django.db import models
 from rest_framework_simplejwt import serializers
 
 
