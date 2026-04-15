@@ -1,21 +1,26 @@
-from api.models import Profile, Meal
-from backend.api.serializers import RegisterUserSerializer, AboutMeSerializer, ProfileSerializer, MealSerializer
-from django.db.migrations import serializer
+from api.models import Meal
+from api.serializers import MealSerializer
+from django.utils import timezone
 from rest_framework import status, permissions
-from rest_framework.generics import CreateAPIView
+from rest_framework.decorators import permission_classes, api_view
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.views import APIView
-from rest_framework_simplejwt.tokens import RefreshToken
 
 
 @api_view(["GET", "POST"])
 @permission_classes([IsAuthenticated])
 def meals_list(request):
     if request.method == "GET":
-        meals = Meal.objects.filter(user=request.user).order_by("-eaten_at")
-        serializers = MealSerializer(meals, many=True)
-        return Response(serializers.data)
+        today = request.query_params.get("today")
+        meals = Meal.objects.filter(user=request.user)
+
+        if today == "true":
+            meals = meals.filter(eaten_at__date=timezone.localdate())
+
+        meals = meals.order_by("-eaten_at")
+
+        serializer = MealSerializer(meals, many=True)
+        return Response(serializer.data)
     serializer = MealSerializer(data=request.data)
     if serializer.is_valid():
         serializer.save(user=request.user)

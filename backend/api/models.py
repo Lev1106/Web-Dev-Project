@@ -5,7 +5,11 @@ from django.db import models
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
     name = models.CharField(max_length=100, blank=True, verbose_name="Full name")
-    bio = models.TextField(max_length=1000, verbose_name="Biography")
+    bio = models.TextField(max_length=1000, blank=True, verbose_name="Biography")
+    height = models.DecimalField(max_digits=5, decimal_places=2, default=0, verbose_name="Height")
+    age = models.PositiveIntegerField(default=0, verbose_name="Age")
+    activity_level = models.TextField(default="Moderate", verbose_name="Activity level")
+    streak_days = models.PositiveIntegerField(default=0, verbose_name="Streak days")
 
     def __str__(self):
         return self.user.username
@@ -16,7 +20,7 @@ class Profile(models.Model):
 
 
 class DailyGoal(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="daily_goals")
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="daily_goals")
     target_calories = models.PositiveIntegerField(default=1850, verbose_name="Target calories")
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -51,13 +55,13 @@ class Meal(models.Model):
 
 
 class WeightEntry(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="meals")
-    weight = models.DecimalField(default=0, decimal_places=2, verbose_name="Weight")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="weight_entries")
+    weight = models.DecimalField(max_digits=5, default=0, decimal_places=2, verbose_name="Weight")
     created_at = models.DateTimeField()
 
     def __str__(self):
         return f"{self.user.username} -  {self.weight} kg"
 
     class Meta:
-        verbose_name = "Meal"
-        verbose_name_plural = "Meals"
+        verbose_name = "Weight entry"
+        verbose_name_plural = "Weight entries"

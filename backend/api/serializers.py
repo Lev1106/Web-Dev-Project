@@ -1,6 +1,6 @@
 from api.models import Profile, Meal, WeightEntry, DailyGoal
 from django.contrib.auth.models import User
-from rest_framework_simplejwt import serializers
+from rest_framework import serializers
 
 
 class RegisterUserSerializer(serializers.ModelSerializer):
@@ -48,3 +48,6 @@ class DashboardSummarySerializer(serializers.Serializer):
     target_calories = serializers.IntegerField()
     consumed_calories = serializers.IntegerField()
     remaining_calories = serializers.IntegerField()
+    progress_percent = serializers.FloatField()
+    meals_count = serializers.IntegerField()
+    avg_per_meal = serializers.FloatField()

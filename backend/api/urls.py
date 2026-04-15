@@ -14,7 +14,9 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from api.views.cbv import AboutMeView, LogoutView, RegisterView, ProfileView
+from api.models import DailyGoal
+from api.views.cbv import *
+from api.views.fbv import meals_list, meal_detail
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
@@ -26,5 +28,10 @@ urlpatterns = [
     path("auth/logout/", LogoutView.as_view(), name="logout"),
     path("auth/me/", AboutMeView.as_view(), name="about_me"),
     path("profile/", ProfileView.as_view(), name="profile"),
-    path
+    path("meals/", meals_list, name="meals_list"),
+    path("meals/<int:meal_id>/", meal_detail, name="meal_detail"),
+    path("goal/", DailyGoalView.as_view(), name="daily_goal"),
+    path("dashboard/summary/", DashboardSummaryView.as_view(), name="dashboard_summary"),
+    path("weights/", WeightEntryListCreateView.as_view(), name="weights_list"),
+    path("weights/<int:weight_id>/", WeightEntryDetailView.as_view(), name="weight_detail"),
 ]
