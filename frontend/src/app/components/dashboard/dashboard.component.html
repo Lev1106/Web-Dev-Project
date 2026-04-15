@@ -1,0 +1,73 @@
+<div class="dashboard">
+  <!-- Calorie Card -->
+  <div class="card calorie-card">
+    <div class="card-label">Today's calories</div>
+    <div class="calorie-big">{{ mealService.todayTotal() }}</div>
+    <div class="calorie-sub">kcal of {{ mealService.goal() }} kcal goal</div>
+    <div class="progress-bar">
+      <div
+        class="progress-fill"
+        [style.width.%]="mealService.progressPercent()"
+        [class.over]="mealService.progressPercent() >= 100">
+      </div>
+    </div>
+    <div class="progress-labels">
+      <span>{{ mealService.progressPercent() }}%</span>
+      <span *ngIf="mealService.todayTotal() < mealService.goal(); else goalReached">
+        {{ mealService.goal() - mealService.todayTotal() }} kcal left
+      </span>
+      <ng-template #goalReached><span class="goal-reached">Goal reached! 🎉</span></ng-template>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-val">{{ mealService.meals().length }}</div>
+      <div class="stat-lbl">Meals logged</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val">{{ mealService.avgPerMeal() || '—' }}</div>
+      <div class="stat-lbl">Avg per meal</div>
+    </div>
+  </div>
+
+  <!-- Meal List -->
+  <div class="section-title">Meals</div>
+
+  <div class="meal-list">
+    <div class="meal-item" *ngFor="let meal of mealService.meals()">
+      <div class="meal-dot"></div>
+      <div class="meal-info">
+        <div class="meal-name">{{ meal.name }}</div>
+        <div class="meal-time">{{ meal.time }}</div>
+      </div>
+      <span class="meal-kcal">{{ meal.kcal }} kcal</span>
+      <button class="meal-del" (click)="mealService.deleteMeal(meal.id)">✕</button>
+    </div>
+  </div>
+
+  <button class="add-btn" (click)="openModal()">+ Add new meal</button>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" *ngIf="showModal()" (click)="closeModal()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <h3>ADD NEW MEAL</h3>
+    <input
+      type="text"
+      [(ngModel)]="newMealName"
+      placeholder="e.g., Smoothie"
+      (keydown.enter)="addMeal()" />
+    <input
+      type="number"
+      [(ngModel)]="newMealKcal"
+      placeholder="Calories (kcal)"
+      min="1"
+      (keydown.enter)="addMeal()" />
+    <div class="modal-row">
+      <button class="btn-cancel" (click)="closeModal()">Cancel</button>
+      <button class="btn-ok" (click)="addMeal()">Add</button>
+    </div>
+  </div>
+</div>

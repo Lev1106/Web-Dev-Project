@@ -1,0 +1,26 @@
+<div class="history">
+  <div class="card">
+    <div class="section-title">Meal History</div>
+
+    <div class="day-group" *ngFor="let group of mealService.allHistory()">
+      <div class="day-header">
+        <span class="day-label">{{ group.date }}</span>
+        <div class="day-badges">
+          <span class="badge">{{ group.total }} kcal</span>
+          <span class="badge badge-success" *ngIf="group.total >= mealService.goal()">Goal met ✓</span>
+        </div>
+      </div>
+
+      <div class="meal-row" *ngFor="let meal of group.meals">
+        <div class="meal-row-left">
+          <div class="dot"></div>
+          <div>
+            <div class="meal-name">{{ meal.name }}</div>
+            <div class="meal-time">{{ meal.time }}</div>
+          </div>
+        </div>
+        <span class="kcal-badge">{{ meal.kcal }} kcal</span>
+      </div>
+    </div>
+  </div>
+</div>

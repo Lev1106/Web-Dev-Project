@@ -1,0 +1,227 @@
+.dashboard { padding: 20px; }
+
+.card {
+  background: #fff;
+  border-radius: 16px;
+  border: 0.5px solid #e5e7eb;
+  padding: 20px;
+}
+
+.calorie-card { margin-bottom: 12px; }
+
+.card-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 8px;
+}
+
+.calorie-big {
+  font-size: 52px;
+  font-weight: 500;
+  color: #2d9e6b;
+  line-height: 1;
+}
+
+.calorie-sub {
+  font-size: 13px;
+  color: #9ca3af;
+  margin-top: 4px;
+}
+
+.progress-bar {
+  background: #f3f4f6;
+  border-radius: 20px;
+  height: 8px;
+  margin-top: 14px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 20px;
+  background: #2d9e6b;
+  transition: width 0.4s ease;
+  &.over { background: #e24b4a; }
+}
+
+.progress-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #9ca3af;
+  margin-top: 6px;
+}
+
+.goal-reached { color: #2d9e6b; font-weight: 500; }
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.stat-card {
+  background: #f9fafb;
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+
+.stat-val {
+  font-size: 24px;
+  font-weight: 500;
+  color: #2d9e6b;
+}
+
+.stat-lbl {
+  font-size: 12px;
+  color: #9ca3af;
+  margin-top: 2px;
+}
+
+.section-title {
+  font-size: 12px;
+  font-weight: 500;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin: 20px 0 10px;
+}
+
+.meal-list { display: flex; flex-direction: column; gap: 8px; }
+
+.meal-item {
+  background: #fff;
+  border-radius: 12px;
+  border: 0.5px solid #e5e7eb;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: box-shadow 0.2s;
+
+  &:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+}
+
+.meal-dot {
+  width: 4px;
+  height: 36px;
+  background: #2d9e6b;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.meal-info { flex: 1; }
+
+.meal-name { font-size: 14px; font-weight: 500; color: #111827; }
+
+.meal-time { font-size: 12px; color: #9ca3af; margin-top: 2px; }
+
+.meal-kcal { font-size: 13px; color: #6b7280; white-space: nowrap; }
+
+.meal-del {
+  background: none;
+  border: none;
+  color: #d1d5db;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 4px 6px;
+  border-radius: 6px;
+  transition: all 0.15s;
+
+  &:hover { color: #e24b4a; background: #fef2f2; }
+}
+
+.add-btn {
+  width: 100%;
+  background: #2d9e6b;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 13px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 12px;
+  transition: background 0.2s;
+
+  &:hover { background: #1d8a5a; }
+}
+
+// Modal
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  backdrop-filter: blur(2px);
+}
+
+.modal {
+  background: #fff;
+  border-radius: 20px;
+  padding: 28px 24px;
+  width: 320px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+
+  h3 {
+    font-size: 15px;
+    font-weight: 500;
+    text-align: center;
+    letter-spacing: 0.08em;
+    margin-bottom: 20px;
+    color: #111827;
+  }
+
+  input {
+    width: 100%;
+    border: 0.5px solid #d1d5db;
+    border-radius: 40px;
+    padding: 12px 18px;
+    font-size: 14px;
+    margin-bottom: 10px;
+    outline: none;
+    box-sizing: border-box;
+    background: #f9fafb;
+    transition: border-color 0.2s;
+
+    &:focus { border-color: #2d9e6b; background: #fff; }
+  }
+}
+
+.modal-row { display: flex; gap: 10px; margin-top: 4px; }
+
+.btn-cancel {
+  flex: 1;
+  background: #f3f4f6;
+  border: none;
+  border-radius: 40px;
+  padding: 11px;
+  font-size: 14px;
+  cursor: pointer;
+  color: #6b7280;
+  transition: background 0.2s;
+
+  &:hover { background: #e5e7eb; }
+}
+
+.btn-ok {
+  flex: 1;
+  background: #2d9e6b;
+  color: white;
+  border: none;
+  border-radius: 40px;
+  padding: 11px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover { background: #1d8a5a; }
+}

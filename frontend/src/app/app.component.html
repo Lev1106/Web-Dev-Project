@@ -1,0 +1,34 @@
+<div class="app-wrapper">
+  <nav class="navbar">
+    <div class="nav-logo">
+      <div class="leaf-icon">🌿</div>
+      <span class="logo-text">FitTrack</span>
+    </div>
+    <div class="nav-tabs">
+      <button
+        class="nav-tab"
+        [class.active]="activeTab() === 'dashboard'"
+        (click)="setTab('dashboard')">
+        Dashboard
+      </button>
+      <button
+        class="nav-tab"
+        [class.active]="activeTab() === 'history'"
+        (click)="setTab('history')">
+        History
+      </button>
+      <button
+        class="nav-tab"
+        [class.active]="activeTab() === 'profile'"
+        (click)="setTab('profile')">
+        Profile
+      </button>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <app-dashboard *ngIf="activeTab() === 'dashboard'" />
+    <app-history   *ngIf="activeTab() === 'history'" />
+    <app-profile   *ngIf="activeTab() === 'profile'" />
+  </main>
+</div>

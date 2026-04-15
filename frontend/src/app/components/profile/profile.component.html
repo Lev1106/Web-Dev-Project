@@ -1,0 +1,49 @@
+<div class="profile">
+  <div class="card">
+    <div class="avatar">AJ</div>
+    <div class="name">Alex Johnson</div>
+    <div class="subtitle">
+      Fitness enthusiast &nbsp;·&nbsp;
+      <span class="streak">🔥 7 day streak</span>
+    </div>
+
+    <div class="fields">
+      <div class="field">
+        <span class="field-label">Daily goal</span>
+        <span class="field-val green">{{ mealService.goal() }} kcal</span>
+      </div>
+      <div class="field">
+        <span class="field-label">Weight</span>
+        <span class="field-val">72 kg</span>
+      </div>
+      <div class="field">
+        <span class="field-label">Height</span>
+        <span class="field-val">178 cm</span>
+      </div>
+      <div class="field">
+        <span class="field-label">Age</span>
+        <span class="field-val">28</span>
+      </div>
+      <div class="field">
+        <span class="field-label">Activity level</span>
+        <span class="field-val">Moderate</span>
+      </div>
+    </div>
+
+    <div class="goal-section">
+      <div class="goal-label">Adjust daily calorie goal</div>
+      <input
+        type="range"
+        min="1200"
+        max="4000"
+        step="50"
+        [value]="mealService.goal()"
+        (input)="onGoalChange($any($event.target).value)"
+        class="slider" />
+      <div class="slider-range">
+        <span>1200 kcal</span>
+        <span>4000 kcal</span>
+      </div>
+    </div>
+  </div>
+</div>
