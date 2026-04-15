@@ -1,0 +1,92 @@
+.profile { padding: 20px; }
+
+.card {
+  background: #fff;
+  border-radius: 16px;
+  border: 0.5px solid #e5e7eb;
+  padding: 24px 20px;
+  text-align: center;
+}
+
+.avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #e1f5ee;
+  color: #0f6e56;
+  font-size: 22px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+}
+
+.name {
+  font-size: 18px;
+  font-weight: 500;
+  color: #111827;
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  font-size: 13px;
+  color: #9ca3af;
+  margin-bottom: 24px;
+}
+
+.streak {
+  display: inline-block;
+  background: #faeeda;
+  color: #854f0b;
+  border-radius: 20px;
+  padding: 2px 10px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.fields {
+  text-align: left;
+  border-top: 0.5px solid #f3f4f6;
+}
+
+.field {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 13px 0;
+  border-bottom: 0.5px solid #f3f4f6;
+  font-size: 14px;
+
+  &:last-child { border-bottom: none; }
+}
+
+.field-label { color: #9ca3af; }
+
+.field-val { color: #111827; font-weight: 500; }
+
+.field-val.green { color: #2d9e6b; }
+
+.goal-section {
+  margin-top: 24px;
+  text-align: left;
+}
+
+.goal-label {
+  font-size: 13px;
+  color: #9ca3af;
+  margin-bottom: 10px;
+}
+
+.slider {
+  width: 100%;
+  accent-color: #2d9e6b;
+}
+
+.slider-range {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #9ca3af;
+  margin-top: 4px;
+}

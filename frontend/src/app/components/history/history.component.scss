@@ -1,0 +1,89 @@
+.history { padding: 20px; }
+
+.card {
+  background: #fff;
+  border-radius: 16px;
+  border: 0.5px solid #e5e7eb;
+  padding: 20px;
+}
+
+.section-title {
+  font-size: 12px;
+  font-weight: 500;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 20px;
+}
+
+.day-group {
+  margin-bottom: 24px;
+
+  &:last-child { margin-bottom: 0; }
+}
+
+.day-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.day-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.day-badges { display: flex; gap: 6px; }
+
+.badge {
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: #e1f5ee;
+  color: #0f6e56;
+  font-weight: 500;
+}
+
+.badge-success {
+  background: #e6f1fb;
+  color: #185fa5;
+}
+
+.meal-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 0.5px solid #f3f4f6;
+
+  &:last-child { border-bottom: none; }
+}
+
+.meal-row-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #2d9e6b;
+  flex-shrink: 0;
+}
+
+.meal-name { font-size: 13px; color: #111827; }
+
+.meal-time { font-size: 11px; color: #9ca3af; margin-top: 1px; }
+
+.kcal-badge {
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: #e1f5ee;
+  color: #0f6e56;
+  font-weight: 500;
+}
