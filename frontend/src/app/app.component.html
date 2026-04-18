@@ -5,9 +5,12 @@
             <span class="logo-text">FitTrack</span>
         </div>
         <div class="nav-tabs">
-            <a class="nav-tab" routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
-            <a class="nav-tab" routerLink="/history" routerLinkActive="active">History</a>
-            <a class="nav-tab" routerLink="/profile" routerLinkActive="active">Profile</a>
+            <ng-container *ngIf="isLoggedIn()">
+                <a class="nav-tab" routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+                <a class="nav-tab" routerLink="/history" routerLinkActive="active">History</a>
+                <a class="nav-tab" routerLink="/profile" routerLinkActive="active">Profile</a>
+                <button class="nav-tab logout-btn" (click)="logout()">Log Out</button>
+            </ng-container>
         </div>
     </nav>
 
