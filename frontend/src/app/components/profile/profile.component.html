@@ -1,72 +1,33 @@
 <div class="profile">
     <div class="card">
         <div class="avatar">{{ getInitials() }}</div>
-
-        <div *ngIf="!isEditing()">
-            <div class="name">{{ name() }}</div>
-            <div class="subtitle">
-                Fitness enthusiast &nbsp;·&nbsp;
-                <span class="streak">🔥 7 day streak</span>
-            </div>
-
-            <div class="fields">
-                <div class="field">
-                    <span class="field-label">Daily goal</span>
-                    <span class="field-val green">{{ mealService.goal() }} kcal</span>
-                </div>
-                <div class="field">
-                    <span class="field-label">Weight</span>
-                    <span class="field-val">{{ weight() }} kg</span>
-                </div>
-                <div class="field">
-                    <span class="field-label">Height</span>
-                    <span class="field-val">{{ height() }} cm</span>
-                </div>
-                <div class="field">
-                    <span class="field-label">Age</span>
-                    <span class="field-val">{{ age() }}</span>
-                </div>
-                <div class="field">
-                    <span class="field-label">Activity level</span>
-                    <span class="field-val">{{ activityLevel() }}</span>
-                </div>
-            </div>
-
-            <button (click)="startEdit()">Edit Profile</button>
+        <div class="name">{{ profile.firstName }} {{ profile.lastName }}</div>
+        <div class="subtitle">
+            Fitness enthusiast &nbsp;·&nbsp;
+            <span class="streak">🔥 7 day streak</span>
         </div>
 
-        <div *ngIf="isEditing()">
-            <div class="fields">
-                <div class="field">
-                    <span class="field-label">Name</span>
-                    <input [(ngModel)]="tempName" placeholder="Your name" />
-                </div>
-                <div class="field">
-                    <span class="field-label">Weight (kg)</span>
-                    <input [(ngModel)]="tempWeight" type="number" placeholder="kg" />
-                </div>
-                <div class="field">
-                    <span class="field-label">Height (cm)</span>
-                    <input [(ngModel)]="tempHeight" type="number" placeholder="cm" />
-                </div>
-                <div class="field">
-                    <span class="field-label">Age</span>
-                    <input [(ngModel)]="tempAge" type="number" placeholder="age" />
-                </div>
-                <div class="field">
-                    <span class="field-label">Activity level</span>
-                    <select [(ngModel)]="tempActivity">
-                        <option>Sedentary</option>
-                        <option>Light</option>
-                        <option>Moderate</option>
-                        <option>Active</option>
-                        <option>Very Active</option>
-                    </select>
-                </div>
+        <div class="fields">
+            <div class="field">
+                <span class="field-label">Daily goal</span>
+                <span class="field-val green">{{ mealService.goal() }} kcal</span>
             </div>
-
-            <button (click)="saveEdit()">Save</button>
-            <button (click)="cancelEdit()">Cancel</button>
+            <div class="field">
+                <span class="field-label">Weight</span>
+                <span class="field-val">{{ profile.weight }} kg</span>
+            </div>
+            <div class="field">
+                <span class="field-label">Height</span>
+                <span class="field-val">{{ profile.height }} cm</span>
+            </div>
+            <div class="field">
+                <span class="field-label">Age</span>
+                <span class="field-val">{{ profile.age }}</span>
+            </div>
+            <div class="field">
+                <span class="field-label">Goal</span>
+                <span class="field-val">{{ profile.goal }}</span>
+            </div>
         </div>
 
         <div class="goal-section">
