@@ -1,0 +1,19 @@
+<div class="login-wrapper">
+    <h2>Complete Your Profile</h2>
+    <p style="color: gray; margin-bottom: 16px;">Tell us about yourself</p>
+
+    <input [(ngModel)]="firstName" placeholder="First Name" />
+    <input [(ngModel)]="lastName" placeholder="Last Name" />
+    <input [(ngModel)]="weight" type="number" placeholder="Weight (kg)" />
+    <input [(ngModel)]="height" type="number" placeholder="Height (cm)" />
+    <input [(ngModel)]="age" type="number" placeholder="Age" />
+
+    <select [(ngModel)]="goal">
+        <option value="lose_weight">Lose Weight</option>
+        <option value="maintain">Maintain Weight</option>
+        <option value="gain_weight">Gain Weight</option>
+        <option value="build_muscle">Build Muscle</option>
+    </select>
+
+    <button (click)="save()">Continue</button>
+</div>
