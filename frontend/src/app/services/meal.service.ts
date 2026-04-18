@@ -1,10 +1,24 @@
 import { Injectable, signal, computed } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { catchError, throwError } from 'rxjs';
 import { Meal } from '../models/meal.model';
 
 @Injectable({ providedIn: 'root' })
 export class MealService {
+  private apiUrl = 'http://localhost:8000/api';
+  errorMsg = signal<string>('');
   private nextId = 10;
 
+  constructor(private http: HttpClient) {}
+
+  getMeals() {
+    return this.http.get<Meal[]>(`${this.apiUrl}/meals/`).pipe(
+        catchError(err => {
+          this.errorMsg.set('Не удалось загрузить приёмы пищи');
+          return throwError(() => err);
+        })
+    );
+  }
   meals = signal<Meal[]>([
     { id: 1, name: 'Breakfast: Oatmeal & Berries', kcal: 450, time: '08:00', date: 'today' },
     { id: 2, name: 'Lunch', kcal: 380, time: '13:00', date: 'today' },
