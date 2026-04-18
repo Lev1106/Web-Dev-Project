@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -10,7 +10,7 @@ import { AuthService } from '../../services/auth.service';
     imports: [FormsModule, CommonModule],
     templateUrl: './login.component.html',
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
     username = '';
     password = '';
     errorMsg = '';
@@ -19,11 +19,24 @@ export class LoginComponent {
 
     constructor(private auth: AuthService, private router: Router) {}
 
+    ngOnInit() {
+        // очищаем токен при каждом открытии страницы логина
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
+    }
+
     login() {
         this.errorMsg = '';
         this.auth.login(this.username, this.password).subscribe({
-            next: () => this.router.navigate(['/dashboard']),
-            error: (err) => this.errorMsg = err.message
+            next: () => {
+                const setupDone = localStorage.getItem('profile_setup_done');
+                if (setupDone) {
+                    this.router.navigate(['/dashboard']);
+                } else {
+                    this.router.navigate(['/setup']);
+                }
+            },
+            error: () => this.errorMsg = 'Invalid username or password'
         });
     }
 
@@ -32,10 +45,13 @@ export class LoginComponent {
         this.successMsg = '';
         this.auth.register(this.username, this.password).subscribe({
             next: () => {
-                this.successMsg = 'Account successfully registered';
-                this.isRegisterMode = false;
+                // после регистрации сразу логинимся и идём на setup
+                this.auth.login(this.username, this.password).subscribe({
+                    next: () => this.router.navigate(['/setup']),
+                    error: () => this.errorMsg = 'Registration successful, please sign in'
+                });
             },
-            error: (err) => this.errorMsg = 'Registration failed'
+            error: () => this.errorMsg = 'Registration failed'
         });
     }
 }
