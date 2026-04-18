@@ -12,15 +12,21 @@ export class AuthService {
 
     login(username: string, password: string) {
         return this.http.post<{ access: string; refresh: string }>(
-            `${this.apiUrl}/token/`, { username, password }
+            `${this.apiUrl}/auth/login/`, { username, password }
         ).pipe(
             tap(tokens => {
                 localStorage.setItem('access_token', tokens.access);
                 localStorage.setItem('refresh_token', tokens.refresh);
             }),
-            catchError(err => {
-                return throwError(() => new Error('Неверный логин или пароль'));
-            })
+            catchError(() => throwError(() => new Error('Wrong password or username')))
+        );
+    }
+
+    register(username: string, password: string) {
+        return this.http.post(
+            `${this.apiUrl}/auth/register/`, { username, password }
+        ).pipe(
+            catchError(() => throwError(() => new Error('Register error')))
         );
     }
 

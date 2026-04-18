@@ -1,0 +1,20 @@
+<div class="login-wrapper">
+    <h2>{{ isRegisterMode ? 'Sign Up' : 'Sign In to FitTrack' }}</h2>
+
+    <div *ngIf="errorMsg" class="error-msg">{{ errorMsg }}</div>
+    <div *ngIf="successMsg" class="success-msg">{{ successMsg }}</div>
+
+    <input [(ngModel)]="username" placeholder="Username" />
+    <input [(ngModel)]="password" type="password" placeholder="Password" />
+
+    <button (click)="isRegisterMode ? register() : login()">
+        {{ isRegisterMode ? 'Sign Up' : 'Sign In' }}
+    </button>
+
+    <p>
+        {{ isRegisterMode ? 'Already have an account?' : "Don't have an account?" }}
+        <a (click)="isRegisterMode = !isRegisterMode" style="cursor:pointer; color: green;">
+            {{ isRegisterMode ? 'Sign In' : 'Sign Up' }}
+        </a>
+    </p>
+</div>
