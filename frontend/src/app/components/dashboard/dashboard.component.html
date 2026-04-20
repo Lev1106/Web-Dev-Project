@@ -39,11 +39,11 @@
     <div class="meal-item" *ngFor="let meal of mealService.meals()">
       <div class="meal-dot"></div>
       <div class="meal-info">
-        <div class="meal-name">{{ meal.name }}</div>
-        <div class="meal-time">{{ meal.time }}</div>
+        <div class="meal-name">{{ meal.title }}</div>
+        <div class="meal-time">{{ meal.eaten_at | date: 'HH:mm' }}</div>
       </div>
-      <span class="meal-kcal">{{ meal.kcal }} kcal</span>
-      <button class="meal-del" (click)="mealService.deleteMeal(meal.id)">✕</button>
+      <span class="meal-kcal">{{ meal.calories }} kcal</span>
+      <button class="meal-del" (click)="deleteMeal(meal.id)">✕</button>
     </div>
   </div>
 
@@ -57,7 +57,7 @@
     <input
       type="text"
       [(ngModel)]="newMealName"
-      placeholder="e.g., Smoothie"
+      placeholder="e.g., Smoothie, at most 100 characters"
       (keydown.enter)="addMeal()" />
     <input
       type="number"

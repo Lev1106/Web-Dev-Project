@@ -1,7 +1,9 @@
 export interface Meal {
   id: number;
-  name: string;
-  kcal: number;
-  time: string;
-  date: string;
+  user: number;
+  title: string;
+  meal_type: string;
+  calories: number;
+  eaten_at: string;
+  created_at: string;
 }
