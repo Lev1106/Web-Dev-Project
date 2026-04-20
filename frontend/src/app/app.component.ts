@@ -16,7 +16,7 @@ export class AppComponent {
   router = inject(Router);
 
   logout() {
-    this.auth.logout();
+    this.auth.logout().subscribe();
   }
 
   isLoggedIn() {

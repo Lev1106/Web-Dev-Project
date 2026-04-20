@@ -22,6 +22,6 @@ export class ProfileComponent {
   }
 
   onGoalChange(value: string) {
-    this.mealService.setGoal(Number(value));
+    this.mealService.setGoal(Number(value)).subscribe();
   }
 }
