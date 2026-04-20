@@ -47,6 +47,15 @@
             <span class="meal-kcal">{{ meal.calories }} kcal</span>
             <button class="meal-del" (click)="deleteMeal(meal.id)">✕</button>
         </div>
+  <div class="meal-list">
+    <div class="meal-item" *ngFor="let meal of mealService.meals()">
+      <div class="meal-dot"></div>
+      <div class="meal-info">
+        <div class="meal-name">{{ meal.title }}</div>
+        <div class="meal-time">{{ meal.eaten_at | date: 'HH:mm' }}</div>
+      </div>
+      <span class="meal-kcal">{{ meal.calories }} kcal</span>
+      <button class="meal-del" (click)="deleteMeal(meal.id)">✕</button>
     </div>
 
     <button class="add-btn" (click)="openModal()">+ Add new meal</button>
@@ -58,29 +67,26 @@
 
 <!-- Modal -->
 <div class="modal-overlay" *ngIf="showModal()" (click)="closeModal()">
-    <div class="modal" (click)="$event.stopPropagation()">
-        <h3>ADD NEW MEAL</h3>
-        <div *ngIf="errorMsg" style="color:red; font-size:13px; margin-bottom:8px;">{{ errorMsg }}</div>
-        <input
-                type="text"
-                [(ngModel)]="newMealName"
-                placeholder="e.g., Smoothie"
-                (keydown.enter)="addMeal()" />
-        <input
-                type="number"
-                [(ngModel)]="newMealKcal"
-                placeholder="Calories (kcal)"
-                min="1"
-                (keydown.enter)="addMeal()" />
-        <select [(ngModel)]="newMealType">
-            <option value="breakfast">Breakfast</option>
-            <option value="lunch">Lunch</option>
-            <option value="dinner">Dinner</option>
-            <option value="snack">Snack</option>
-        </select>
-        <div class="modal-row">
-            <button class="btn-cancel" (click)="closeModal()">Cancel</button>
-            <button class="btn-ok" (click)="addMeal()">Add</button>
-        </div>
+  <div class="modal" (click)="$event.stopPropagation()">
+    <h3>ADD NEW MEAL</h3>
+    <input
+      type="text"
+      [(ngModel)]="newMealName"
+      placeholder="e.g., Smoothie, at most 100 chars"
+      (keydown.enter)="addMeal()" />
+    <input
+      type="number"
+      [(ngModel)]="newMealKcal"
+      placeholder="Calories (kcal)"
+      min="1"
+      (keydown.enter)="addMeal()" />
+    <label class="modal-label">Time eaten</label>
+    <input
+      type="time"
+      [(ngModel)]="newMealTime"
+      (keydown.enter)="addMeal()" />
+    <div class="modal-row">
+      <button class="btn-cancel" (click)="closeModal()">Cancel</button>
+      <button class="btn-ok" (click)="addMeal()">Add</button>
     </div>
 </div>

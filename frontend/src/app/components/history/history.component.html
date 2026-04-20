@@ -15,11 +15,11 @@
         <div class="meal-row-left">
           <div class="dot"></div>
           <div>
-            <div class="meal-name">{{ meal.name }}</div>
-            <div class="meal-time">{{ meal.time }}</div>
+            <div class="meal-name">{{ meal.title }}</div>
+            <div class="meal-time">{{ meal.eaten_at | date: 'HH:mm' }}</div>
           </div>
         </div>
-        <span class="kcal-badge">{{ meal.kcal }} kcal</span>
+        <span class="kcal-badge">{{ meal.calories }} kcal</span>
       </div>
     </div>
   </div>

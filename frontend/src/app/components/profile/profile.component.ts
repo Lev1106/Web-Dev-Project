@@ -57,6 +57,6 @@ export class ProfileComponent implements OnInit {
   }
 
   onGoalChange(value: string) {
-    this.mealService.setGoal(Number(value));
+    this.mealService.setGoal(Number(value)).subscribe();
   }
 }
