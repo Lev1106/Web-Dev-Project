@@ -41,7 +41,7 @@ export class DashboardComponent implements OnInit {
       next: (goal) => this.mealService.goal.set(goal.target_calories)
     });
 
-    this.mealService.getTodayMeals().subscribe({
+    this.mealService.getMeals().subscribe({
       next: (meals) => this.mealService.meals.set(meals)
     });
   }
@@ -68,17 +68,27 @@ export class DashboardComponent implements OnInit {
     eatenAt.setHours(hours, minutes, 0, 0);
 
     this.mealService.addMeal(this.newMealName.trim(), this.newMealKcal, eatenAt.toISOString()).subscribe({
-      next: (meal) => {
-        this.mealService.meals.update(list => [meal, ...list]);
+      next: (meal: any) => {
+        this.mealService.meals.update(list => {
+          // проверяем нет ли уже такого id
+          if (list.find(m => m.id === meal.id)) return list;
+          return [meal, ...list];
+        });
         this.closeModal();
       }
     });
   }
 
   deleteMeal(id: number) {
+    // сразу убираем из UI
+    this.mealService.meals.update(list => list.filter(m => m.id !== id));
+
     this.mealService.deleteMeal(id).subscribe({
-      next: () => {
-        this.mealService.meals.update(list => list.filter(m => m.id !== id));
+      error: () => {
+        // если ошибка — перезагружаем с бэкенда
+        this.mealService.getTodayMeals().subscribe({
+          next: (meals) => this.mealService.meals.set(meals)
+        });
       }
     });
   }

@@ -17,6 +17,7 @@ export class SetupComponent {
     weight = '';
     height = '';
     age = '';
+    gender = 'male';
     activityLevel = 'Moderate';
     targetCalories = 2000;
     errorMsg = '';
@@ -35,7 +36,8 @@ export class SetupComponent {
             name: `${this.firstName} ${this.lastName}`,
             height: this.height,
             age: this.age,
-            activity_level: this.activityLevel
+            activity_level: this.activityLevel,
+            gender: this.gender
         };
 
         const goalData = { target_calories: this.targetCalories };

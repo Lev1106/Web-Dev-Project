@@ -29,8 +29,16 @@
                 <span class="field-val">{{ profile().activity_level }}</span>
             </div>
             <div class="field">
+                <span class="field-label">Gender</span>
+                <span class="field-val">{{ profile().gender === 'male' ? '👨 Male' : '👩 Female' }}</span>
+            </div>
+            <div class="field">
                 <span class="field-label">BMI</span>
                 <span class="field-val" [style.color]="getBMIColor()">{{ getBMI() }} — {{ getBMICategory() }}</span>
+            </div>
+            <div class="field">
+                <span class="field-label">Recommended calories</span>
+                <span class="field-val green">{{ getRecommendedCalories() }} kcal/day</span>
             </div>
         </div>
 
