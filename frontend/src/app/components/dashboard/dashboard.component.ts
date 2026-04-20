@@ -15,6 +15,7 @@ export class DashboardComponent implements OnInit {
   showModal = signal(false);
   newMealName = '';
   newMealKcal: number | null = null;
+  newMealTime = '';
 
   ngOnInit() {
     this.mealService.getGoal().subscribe({
@@ -26,12 +27,19 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  openModal() { this.showModal.set(true); this.newMealName = ''; this.newMealKcal = null; }
+  openModal() {
+    this.showModal.set(true); this.newMealName = ''; this.newMealKcal = null;
+    const now = new Date();
+    this.newMealTime = `${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}`;
+  }
   closeModal() { this.showModal.set(false); }
 
   addMeal() {
-    if (!this.newMealName.trim() || !this.newMealKcal || this.newMealKcal < 1) return;
-    this.mealService.addMeal(this.newMealName.trim(), this.newMealKcal).subscribe({
+    if (!this.newMealName.trim() || !this.newMealKcal || this.newMealKcal < 1 || !this.newMealTime) return;
+    const [hours, minutes] = this.newMealTime.split(':').map(Number);
+    const eatenAt = new Date();
+    eatenAt.setHours(hours, minutes, 0, 0);
+    this.mealService.addMeal(this.newMealName.trim(), this.newMealKcal, eatenAt.toISOString()).subscribe({
       next: (meal) => {
         this.mealService.meals.update(list => [...list, meal]);
         this.closeModal();

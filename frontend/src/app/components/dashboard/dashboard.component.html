@@ -57,13 +57,18 @@
     <input
       type="text"
       [(ngModel)]="newMealName"
-      placeholder="e.g., Smoothie, at most 100 characters"
+      placeholder="e.g., Smoothie, at most 100 chars"
       (keydown.enter)="addMeal()" />
     <input
       type="number"
       [(ngModel)]="newMealKcal"
       placeholder="Calories (kcal)"
       min="1"
+      (keydown.enter)="addMeal()" />
+    <label class="modal-label">Time eaten</label>
+    <input
+      type="time"
+      [(ngModel)]="newMealTime"
       (keydown.enter)="addMeal()" />
     <div class="modal-row">
       <button class="btn-cancel" (click)="closeModal()">Cancel</button>

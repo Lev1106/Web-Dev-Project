@@ -45,6 +45,12 @@ export class MealService {
     );
   }
 
+  getHistoryMeals() {
+    this.getMeals().subscribe({
+      next: (meals) => this.historyMeals.set(meals)
+    });
+  }
+
   meals = signal<Meal[]>([
     // { id: 1, name: 'Breakfast: Oatmeal & Berries', kcal: 450, time: '08:00', date: 'today' },
     // { id: 2, name: 'Lunch', kcal: 380, time: '13:00', date: 'today' },
@@ -80,12 +86,12 @@ export class MealService {
   //   const time = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
   //   this.meals.update(list => [...list, { id: this.nextId++, user, title, meal_type, calories, eaten_at: 'now', created_at: 'now' }]);
   // }
-  addMeal(title: string, calories: number) {
+  addMeal(title: string, calories: number, eaten_at: string) {
     return this.http.post<Meal>(`${this.apiUrl}/meals/`, {
       title,
       meal_type: 'snack',
       calories,
-      eaten_at: new Date().toISOString()
+      eaten_at
     }).pipe(
       catchError(err => {
         this.errorMsg.set('Не удалось добавить приём пищи');

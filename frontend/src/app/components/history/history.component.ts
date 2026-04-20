@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MealService } from '../../services/meal.service';
 
@@ -9,6 +9,10 @@ import { MealService } from '../../services/meal.service';
   templateUrl: './history.component.html',
   styleUrls: ['./history.component.scss']
 })
-export class HistoryComponent {
+export class HistoryComponent implements OnInit{
   mealService = inject(MealService);
+  ngOnInit() {
+    this.mealService.getHistoryMeals();
+    this.mealService.getGoal();
+  }
 }
