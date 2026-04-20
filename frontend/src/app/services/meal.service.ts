@@ -111,7 +111,18 @@ export class MealService {
   }
 
   setGoal(g: number) {
+    const prev = this.goal();
     this.goal.set(g);
+
+    return this.http.put(`${this.apiUrl}/goal/`, {
+      target_calories: g
+    }).pipe(
+      catchError(err => {
+        this.goal.set(prev);
+        this.errorMsg.set('Не удалось обновить цель по калориям');
+        return throwError(() => err);
+      })
+    );
   }
 
 

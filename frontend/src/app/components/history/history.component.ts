@@ -13,6 +13,8 @@ export class HistoryComponent implements OnInit{
   mealService = inject(MealService);
   ngOnInit() {
     this.mealService.getHistoryMeals();
-    this.mealService.getGoal();
+    this.mealService.getGoal().subscribe({
+      next: (goal) => this.mealService.goal.set(goal.target_calories)
+    });;
   }
 }
