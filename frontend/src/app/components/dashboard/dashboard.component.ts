@@ -1,8 +1,7 @@
-import { Component, signal, inject, OnInit } from '@angular/core';
+import { Component, signal, inject, OnInit, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-import {MealService} from '../../services/meal.service';
+import { MealService } from '../../services/meal.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,6 +12,25 @@ import {MealService} from '../../services/meal.service';
 })
 export class DashboardComponent implements OnInit {
   mealService = inject(MealService);
+
+  meals = this.mealService.meals;
+  summary = computed(() => {
+    const meals = this.mealService.meals();
+    const targetCalories = this.mealService.goal();
+    const consumedCalories = this.mealService.todayTotal();
+    const progressPercent = this.mealService.progressPercent();
+    const remainingCalories = Math.max(0, targetCalories - consumedCalories);
+
+    return {
+      consumed_calories: consumedCalories,
+      target_calories: targetCalories,
+      progress_percent: progressPercent,
+      remaining_calories: remainingCalories,
+      meals_count: meals.length,
+      avg_per_meal: this.mealService.avgPerMeal()
+    };
+  });
+
   showModal = signal(false);
   newMealName = '';
   newMealKcal: number | null = null;
@@ -29,24 +47,34 @@ export class DashboardComponent implements OnInit {
   }
 
   openModal() {
-    this.showModal.set(true); this.newMealName = ''; this.newMealKcal = null;
+    this.showModal.set(true);
+    this.newMealName = '';
+    this.newMealKcal = null;
     const now = new Date();
-    this.newMealTime = `${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}`;
+    this.newMealTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
   }
-  closeModal() { this.showModal.set(false); }
+
+  closeModal() {
+    this.showModal.set(false);
+  }
 
   addMeal() {
-    if (!this.newMealName.trim() || !this.newMealKcal || this.newMealKcal < 1 || !this.newMealTime) return;
+    if (!this.newMealName.trim() || !this.newMealKcal || this.newMealKcal < 1 || !this.newMealTime) {
+      return;
+    }
+
     const [hours, minutes] = this.newMealTime.split(':').map(Number);
     const eatenAt = new Date();
     eatenAt.setHours(hours, minutes, 0, 0);
+
     this.mealService.addMeal(this.newMealName.trim(), this.newMealKcal, eatenAt.toISOString()).subscribe({
       next: (meal) => {
-        this.mealService.meals.update(list => [...list, meal]);
+        this.mealService.meals.update(list => [meal, ...list]);
         this.closeModal();
       }
     });
   }
+
   deleteMeal(id: number) {
     this.mealService.deleteMeal(id).subscribe({
       next: () => {
