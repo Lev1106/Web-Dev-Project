@@ -10,6 +10,7 @@ class Profile(models.Model):
     age = models.PositiveIntegerField(default=0, verbose_name="Age")
     activity_level = models.TextField(default="Moderate", verbose_name="Activity level")
     streak_days = models.PositiveIntegerField(default=0, verbose_name="Streak days")
+    gender = models.CharField(max_length=10, choices=[('male', 'Male'), ('female', 'Female')], default='male', verbose_name="Gender")
 
     def __str__(self):
         return self.user.username

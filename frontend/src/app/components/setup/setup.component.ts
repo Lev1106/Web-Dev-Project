@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { forkJoin } from 'rxjs';
 
 @Component({
     selector: 'app-setup',
@@ -15,21 +17,46 @@ export class SetupComponent {
     weight = '';
     height = '';
     age = '';
-    goal = 'lose_weight';
+    activityLevel = 'Moderate';
+    targetCalories = 2000;
+    errorMsg = '';
 
-    constructor(private router: Router) {}
+    private apiUrl = 'http://localhost:8000/api';
+
+    constructor(private router: Router, private http: HttpClient) {}
 
     save() {
-        const profile = {
-            firstName: this.firstName,
-            lastName: this.lastName,
-            weight: this.weight,
+        if (!this.firstName || !this.lastName || !this.weight || !this.height || !this.age) {
+            this.errorMsg = 'Please fill in all fields';
+            return;
+        }
+
+        const profileData = {
+            name: `${this.firstName} ${this.lastName}`,
             height: this.height,
             age: this.age,
-            goal: this.goal
+            activity_level: this.activityLevel
         };
-        localStorage.setItem('user_profile', JSON.stringify(profile));
-        localStorage.setItem('profile_setup_done', 'true');
-        this.router.navigate(['/dashboard']);
+
+        const goalData = { target_calories: this.targetCalories };
+
+        const weightData = {
+            weight: this.weight,
+            created_at: new Date().toISOString()
+        };
+
+        forkJoin([
+            this.http.put(`${this.apiUrl}/profile/`, profileData),
+            this.http.put(`${this.apiUrl}/goal/`, goalData),
+            this.http.post(`${this.apiUrl}/weights/`, weightData)
+        ]).subscribe({
+            next: () => {
+                localStorage.setItem('profile_setup_done', 'true');
+                this.router.navigate(['/dashboard']);
+            },
+            error: () => {
+                this.errorMsg = 'Something went wrong, try again';
+            }
+        });
     }
 }

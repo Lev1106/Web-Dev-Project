@@ -1,10 +1,10 @@
 <div class="profile">
-    <div class="card">
+    <div class="card" *ngIf="profile()">
         <div class="avatar">{{ getInitials() }}</div>
-        <div class="name">{{ profile.firstName }} {{ profile.lastName }}</div>
+        <div class="name">{{ profile().name }}</div>
         <div class="subtitle">
             Fitness enthusiast &nbsp;·&nbsp;
-            <span class="streak">🔥 7 day streak</span>
+            <span class="streak">🔥 {{ profile().streak_days }} day streak</span>
         </div>
 
         <div class="fields">
@@ -14,19 +14,23 @@
             </div>
             <div class="field">
                 <span class="field-label">Weight</span>
-                <span class="field-val">{{ profile.weight }} kg</span>
+                <span class="field-val">{{ profile().current_weight }} kg</span>
             </div>
             <div class="field">
                 <span class="field-label">Height</span>
-                <span class="field-val">{{ profile.height }} cm</span>
+                <span class="field-val">{{ profile().height }} cm</span>
             </div>
             <div class="field">
                 <span class="field-label">Age</span>
-                <span class="field-val">{{ profile.age }}</span>
+                <span class="field-val">{{ profile().age }}</span>
             </div>
             <div class="field">
-                <span class="field-label">Goal</span>
-                <span class="field-val">{{ profile.goal }}</span>
+                <span class="field-label">Activity level</span>
+                <span class="field-val">{{ profile().activity_level }}</span>
+            </div>
+            <div class="field">
+                <span class="field-label">BMI</span>
+                <span class="field-val" [style.color]="getBMIColor()">{{ getBMI() }} — {{ getBMICategory() }}</span>
             </div>
         </div>
 
@@ -45,5 +49,9 @@
                 <span>4000 kcal</span>
             </div>
         </div>
+    </div>
+
+    <div *ngIf="!profile()" style="text-align:center; padding: 40px; color: #888;">
+        Loading profile...
     </div>
 </div>

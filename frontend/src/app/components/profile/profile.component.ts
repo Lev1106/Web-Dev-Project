@@ -1,6 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 import { MealService } from '../../services/meal.service';
 
 @Component({
@@ -10,15 +11,49 @@ import { MealService } from '../../services/meal.service';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
   mealService = inject(MealService);
+  http = inject(HttpClient);
 
-  profile = JSON.parse(localStorage.getItem('user_profile') || '{}');
+  private apiUrl = 'http://localhost:8000/api';
+
+  profile = signal<any>(null);
+
+  ngOnInit() {
+    this.http.get(`${this.apiUrl}/profile/`).subscribe({
+      next: (data: any) => this.profile.set(data),
+      error: () => console.error('Failed to load profile')
+    });
+  }
 
   getInitials(): string {
-    const f = this.profile.firstName?.[0] || '';
-    const l = this.profile.lastName?.[0] || '';
-    return (f + l).toUpperCase();
+    const name = this.profile()?.name || '';
+    return name.split(' ').map((n: string) => n[0]).join('').toUpperCase();
+  }
+
+  getBMI(): string {
+    const weight = parseFloat(this.profile()?.current_weight);
+    const height = parseFloat(this.profile()?.height) / 100;
+    if (!weight || !height) return '—';
+    return (weight / (height * height)).toFixed(1);
+  }
+
+  getBMICategory(): string {
+    const bmi = parseFloat(this.getBMI());
+    if (isNaN(bmi)) return '';
+    if (bmi < 18.5) return 'Underweight';
+    if (bmi < 25) return 'Normal';
+    if (bmi < 30) return 'Overweight';
+    return 'Obese';
+  }
+
+  getBMIColor(): string {
+    const bmi = parseFloat(this.getBMI());
+    if (isNaN(bmi)) return '#888';
+    if (bmi < 18.5) return '#2196f3';
+    if (bmi < 25) return '#2e7d32';
+    if (bmi < 30) return '#f57c00';
+    return '#c62828';
   }
 
   onGoalChange(value: string) {

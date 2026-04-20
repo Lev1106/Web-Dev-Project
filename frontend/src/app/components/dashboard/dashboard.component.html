@@ -1,40 +1,52 @@
-<div class="dashboard">
-  <!-- Calorie Card -->
-  <div class="card calorie-card">
-    <div class="card-label">Today's calories</div>
-    <div class="calorie-big">{{ mealService.todayTotal() }}</div>
-    <div class="calorie-sub">kcal of {{ mealService.goal() }} kcal goal</div>
-    <div class="progress-bar">
-      <div
-        class="progress-fill"
-        [style.width.%]="mealService.progressPercent()"
-        [class.over]="mealService.progressPercent() >= 100">
-      </div>
-    </div>
-    <div class="progress-labels">
-      <span>{{ mealService.progressPercent() }}%</span>
-      <span *ngIf="mealService.todayTotal() < mealService.goal(); else goalReached">
-        {{ mealService.goal() - mealService.todayTotal() }} kcal left
+<div class="dashboard" *ngIf="summary()">
+    <!-- Calorie Card -->
+    <div class="card calorie-card">
+        <div class="card-label">Today's calories</div>
+        <div class="calorie-big">{{ summary().consumed_calories }}</div>
+        <div class="calorie-sub">kcal of {{ summary().target_calories }} kcal goal</div>
+        <div class="progress-bar">
+            <div
+                    class="progress-fill"
+                    [style.width.%]="summary().progress_percent"
+                    [class.over]="summary().progress_percent >= 100">
+            </div>
+        </div>
+        <div class="progress-labels">
+            <span>{{ summary().progress_percent }}%</span>
+            <span *ngIf="summary().remaining_calories > 0; else goalReached">
+        {{ summary().remaining_calories }} kcal left
       </span>
-      <ng-template #goalReached><span class="goal-reached">Goal reached! 🎉</span></ng-template>
+            <ng-template #goalReached>
+                <span class="goal-reached">Goal reached! 🎉</span>
+            </ng-template>
+        </div>
     </div>
-  </div>
 
-  <!-- Stats -->
-  <div class="stats-grid">
-    <div class="stat-card">
-      <div class="stat-val">{{ mealService.meals().length }}</div>
-      <div class="stat-lbl">Meals logged</div>
+    <!-- Stats -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-val">{{ summary().meals_count }}</div>
+            <div class="stat-lbl">Meals logged</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-val">{{ summary().avg_per_meal || '—' }}</div>
+            <div class="stat-lbl">Avg per meal</div>
+        </div>
     </div>
-    <div class="stat-card">
-      <div class="stat-val">{{ mealService.avgPerMeal() || '—' }}</div>
-      <div class="stat-lbl">Avg per meal</div>
-    </div>
-  </div>
 
-  <!-- Meal List -->
-  <div class="section-title">Meals</div>
+    <!-- Meal List -->
+    <div class="section-title">Meals</div>
 
+    <div class="meal-list">
+        <div class="meal-item" *ngFor="let meal of meals()">
+            <div class="meal-dot"></div>
+            <div class="meal-info">
+                <div class="meal-name">{{ meal.title }}</div>
+                <div class="meal-time">{{ meal.eaten_at | date:'HH:mm' }}</div>
+            </div>
+            <span class="meal-kcal">{{ meal.calories }} kcal</span>
+            <button class="meal-del" (click)="deleteMeal(meal.id)">✕</button>
+        </div>
   <div class="meal-list">
     <div class="meal-item" *ngFor="let meal of mealService.meals()">
       <div class="meal-dot"></div>
@@ -45,9 +57,12 @@
       <span class="meal-kcal">{{ meal.calories }} kcal</span>
       <button class="meal-del" (click)="deleteMeal(meal.id)">✕</button>
     </div>
-  </div>
 
-  <button class="add-btn" (click)="openModal()">+ Add new meal</button>
+    <button class="add-btn" (click)="openModal()">+ Add new meal</button>
+</div>
+
+<div *ngIf="!summary()" style="text-align:center; padding: 40px; color: #888;">
+    Loading...
 </div>
 
 <!-- Modal -->
@@ -74,5 +89,4 @@
       <button class="btn-cancel" (click)="closeModal()">Cancel</button>
       <button class="btn-ok" (click)="addMeal()">Add</button>
     </div>
-  </div>
 </div>
