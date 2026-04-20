@@ -20,6 +20,10 @@
                 <input class="auth-input" [(ngModel)]="height" type="number" placeholder="Height (cm)" />
             </div>
             <input class="auth-input" [(ngModel)]="age" type="number" placeholder="Age" />
+            <select class="auth-input" [(ngModel)]="gender">
+                <option value="male">👨 Male</option>
+                <option value="female">👩 Female</option>
+            </select>
 
             <select class="auth-input" [(ngModel)]="activityLevel">
                 <option value="Sedentary">🪑 Sedentary</option>

@@ -16,7 +16,6 @@ export class ProfileComponent implements OnInit {
   http = inject(HttpClient);
 
   private apiUrl = 'http://localhost:8000/api';
-
   profile = signal<any>(null);
 
   ngOnInit() {
@@ -56,7 +55,33 @@ export class ProfileComponent implements OnInit {
     return '#c62828';
   }
 
+  getRecommendedCalories(): number {
+    const p = this.profile();
+    if (!p) return 0;
+
+    const weight = parseFloat(p.current_weight);
+    const height = parseFloat(p.height);
+    const age = p.age;
+    const gender = p.gender || 'male';
+
+    if (!weight || !height || !age) return 0;
+
+    // Mifflin-St Jeor
+    let bmr = 10 * weight + 6.25 * height - 5 * age;
+    bmr = gender === 'male' ? bmr + 5 : bmr - 161;
+
+    const activityMap: any = {
+      'Sedentary': 1.2,
+      'Light': 1.375,
+      'Moderate': 1.55,
+      'Active': 1.725,
+      'Very Active': 1.9
+    };
+
+    return Math.round(bmr * (activityMap[p.activity_level] || 1.55));
+  }
+
   onGoalChange(value: string) {
-    this.mealService.setGoal(Number(value)).subscribe();
+    this.mealService.setGoal(Number(value));
   }
 }
